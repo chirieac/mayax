@@ -1,4 +1,6 @@
-# Table of Contents
+# MayaX
+
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -10,7 +12,7 @@
     - [Attribute methods](#attribute-methods)
 
 
-# Introduction
+## Introduction
 
 **MayaX** provides useful functionality to interact with **Maya**, mainly making it easier to work with **nodes** in an **object-oriented** way. It supports *Maya 2019* and up (maybe lower than 2019 too, but it wasn't tested).
 
@@ -40,7 +42,7 @@ cube.parentDriver.worldPosition = mx.Vector(2, 5, 5)
 ```
 
 
-# Installation
+## Installation
 
 **a.** Drag `install.py` script into Maya's viewport.
 
@@ -52,7 +54,7 @@ cube.parentDriver.worldPosition = mx.Vector(2, 5, 5)
 **c.** Copy `src/mayax` into your project.
 
 
-# Usage
+## Usage
 
 - `import mayax as mx`
 
@@ -67,9 +69,9 @@ cube.parentDriver.worldPosition = mx.Vector(2, 5, 5)
 - Add attributes using [node.addAttr()](#add-attr) method.
 
 
-# API
+## API
 
-## Node Properties
+### Node Properties
 
 - `exists`: Check if the node still exists.
 
@@ -98,7 +100,7 @@ cube.parentDriver.worldPosition = mx.Vector(2, 5, 5)
 - `worldMatrix`: Get/set the node's world matrix.
 
 
-## Node Methods
+### Node Methods
 
 - `rename(name, **kwargs)`: Rename the node.
 
@@ -161,7 +163,7 @@ cube.parentDriver.worldPosition = mx.Vector(2, 5, 5)
     Use `kwargs` to pass extra flags used by `maya.cmds.makeIdentity`.
 
 
-## Attribute Properties
+### Attribute Properties
 
 - `name`: Get the attribute's name.
 
@@ -179,7 +181,7 @@ cube.parentDriver.worldPosition = mx.Vector(2, 5, 5)
 
 - `channelBox`: Get/set the attribute's channelBox state.
 
-## Attribute Methods
+### Attribute Methods
 
 - `valueAt(time)`: Get the attribute's value at the specified time.
 
