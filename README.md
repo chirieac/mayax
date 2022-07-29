@@ -10,6 +10,7 @@
     - [Node methods](#node-methods)
     - [Attribute Properties](#attribute-properties)
     - [Attribute methods](#attribute-methods)
+    - [Misc](#misc)
 
 
 ## Introduction
@@ -35,11 +36,14 @@ cube.translate = mx.Vector(0, 5, 0)
 cube['translate'].locked = True
 
 # add node reference as attribute
+# (atttribute of type `message`, connected to `torus.message`)
 cube.addAttr('parentDriver', torus)
 
 # retrieve node reference
 cube.parentDriver.worldPosition = mx.Vector(2, 5, 5)
 ```
+
+The goal is to not replace `maya.cmds`, but to augmented it with some OOP features. Instead of always working with nodes' names, which can be frustrating at times, you would work with Maya's nodes as they were Python objects. Changing the name or parent of a node it will not make your variable obsolete anymore since the variable will still point to the same node.
 
 
 ## Installation
@@ -206,3 +210,10 @@ cube.parentDriver.worldPosition = mx.Vector(2, 5, 5)
 - `outputs(**kwargs)`: Get the attribute's output connections.
 
      Use `kwargs` to pass extra flags used by `maya.cmds.listConnections`.
+
+
+### Misc
+
+- `getCurrentProjectDirectory()`: Return the path for the selected project directory.
+
+- `getModulesDirectory()`: Return the path for the modules directory.
