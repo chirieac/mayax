@@ -19,21 +19,23 @@ def onMayaDroppedPythonFile(*_):
     )
     moduleFilename = os.path.join(mayaModulesPath, 'mayax.mod')
 
+    if sourcePath not in sys.path:
+        sys.path.append(sourcePath)
+
+    from mayax import __version__
+
     if not os.path.exists(mayaModulesPath):
         os.makedirs(mayaModulesPath)
 
     with open(moduleFilename, mode='w') as moduleFile:
         moduleContent = '\n'.join(
             [
-                '+ MayaX 1.0 {}'.format(rootPath),
+                '+ MayaX {} {}'.format(__version__, rootPath),
                 'scripts: src',
             ]
         )
 
         moduleFile.write(moduleContent)
-
-    if sourcePath not in sys.path:
-        sys.path.append(sourcePath)
 
     cmds.confirmDialog(
         title='MayaX',
