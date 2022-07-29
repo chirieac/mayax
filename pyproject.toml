@@ -1,0 +1,100 @@
+[tool.black]
+line-length = 100
+skip-string-normalization = true
+fast = true
+
+# --------------------------------------------------------------------------------------------------
+
+[tool.pylint.main]
+# Python code to execute, usually for sys.path manipulation such as pygtk.require().
+init-hook = "import os; import sys; sys.path.append(os.path.abspath('src'))"
+
+# List of plugins (as comma separated values of python modules names) to load,
+# usually to register additional checkers.
+load-plugins = [
+    "pylint.extensions.bad_builtin",
+    "pylint.extensions.check_elif",
+    "pylint.extensions.comparetozero",
+    "pylint.extensions.emptystring",
+    "pylint.extensions.mccabe",  # Design checker
+    "pylint.extensions.overlapping_exceptions",
+    "pylint.extensions.redefined_variable_type",
+    "pylint.extensions.docparams",
+    "pylint.extensions.docstyle",
+]
+
+[tool.pylint."messages control"]
+disable = [
+    "missing-docstring",  # pydocstyle will be used to check for missing docstrings
+    "too-few-public-methods",
+    "raise-missing-from",  # to support Python 2
+    "consider-using-f-string",  # to support Python 2
+    "useless-object-inheritance",  # to support Python 2
+    "super-with-arguments",  # to support Python 2
+]
+
+[tool.pylint.basic]
+# Naming style matching correct module names
+module-naming-style = "snake_case"
+
+# Naming style matching correct constant names
+const-naming-style = "UPPER_CASE"
+
+# Naming style matching correct variable names
+variable-naming-style = "camelCase"
+
+# Naming style matching correct argument names
+argument-naming-style = "camelCase"
+
+# Naming style matching correct class names
+class-naming-style = "PascalCase"
+
+# Naming style matching correct class attribute names
+class-attribute-naming-style = "any"
+
+# Naming style matching correct inline iteration names
+inlinevar-naming-style = "camelCase"
+
+# Regular expression matching correct function names. Overrides function-naming-style
+# Add custom regular expression to allow the following:
+# camelCase
+# test_should_camelCase[_given_camelCase][_if_camelCase][_when_camelCase][_and_camelCase]
+function-rgx = "(([a-z_][a-zA-Z0-9]{1,50})|(__[a-z][a-zA-Z0-9_]+__)|(test_should_([a-z][a-zA-Z0-9]+)(_and_([a-z][a-zA-Z0-9]+))?(_given_([a-z][a-zA-Z0-9]+))?(_if_([a-z][a-zA-Z0-9]+))?(_when_([a-z][a-zA-Z0-9]+))?(_and_([a-z][a-zA-Z0-9]+))?))$"
+
+# Regular expression matching correct method names. Overrides method-naming-style
+# see function-rgx
+method-rgx = "(((_)?[a-z_][a-zA-Z0-9]{1,40})|(__[a-z][a-zA-Z0-9_]+__)|(test_should_([a-z][a-zA-Z0-9]+)(_and_([a-z][a-zA-Z0-9]+))?(_given_([a-z][a-zA-Z0-9]+))?(_if_([a-z][a-zA-Z0-9]+))?(_when_([a-z][a-zA-Z0-9]+))?(_and_([a-z][a-zA-Z0-9]+))?))$"
+
+# Regular expression matching correct attribute names. Overrides attr-naming-style
+# Use rgx instead of `attr-naming-style=camelCase` to allow names
+# starting with double underscore, like __camelCase
+attr-rgx = "((_)?[a-z_][A-Za-z0-9]{2,30}|(__.*__))$"
+
+# Good variable names which should always be accepted, separated by a comma
+good-names = ["i", "j", "k", "e", "ex", "Run", "_"]
+
+[tool.pylint.format]
+# Maximum number of characters on a single line.
+max-line-length = 100
+
+[tool.pylint.reports]
+# Set the output format. Available formats are text, parseable, colorized, json
+# and msvs (visual studio).You can also give a reporter class, eg
+# mypackage.mymodule.MyReporterClass.
+output-format = "colorized"
+
+[tool.pylint.typecheck]
+# List of module names for which member attributes should not be checked
+# (useful for modules/projects where namespaces are manipulated during runtime
+# and thus existing member attributes cannot be deduced by static analysis. It
+# supports qualified module names, as well as Unix pattern matching.
+ignored-modules = ["PySide2", "shiboken2", "maya"]
+
+# List of members which are set dynamically and missed by pylint inference
+# system, and so shouldn't trigger E1101 when accessed. Python regular
+# expressions are accepted.
+generated-members = ["fget", "fset"]
+
+[tool.pylint.similarities]
+# Minimum lines number of a similarity.
+min-similarity-lines = 5

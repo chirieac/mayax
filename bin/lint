@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+source .venv/3.9/Scripts/activate
+
+python bin/_lint.py

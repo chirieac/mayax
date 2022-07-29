@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+
+VENV_DIR=".venv"
+
+VENV_DIR_PY39="${VENV_DIR}/3.9"
+VENV_DIR_PY37="${VENV_DIR}/3.7"
+VENV_DIR_PY27="${VENV_DIR}/2.7"
+
+PIP_PATH_PY39="${VENV_DIR_PY39}/Scripts/pip"
+PIP_PATH_PY37="${VENV_DIR_PY37}/Scripts/pip"
+PIP_PATH_PY27="${VENV_DIR_PY27}/Scripts/pip"
+
+read -p "Python 3.9 (path): " python39
+read -p "Python 3.7 (path): " python37
+read -p "Python 2.7 (path): " python27
+
+rm -rf .venv
+
+echo -e "\nCreating virtual environment for Python 3.9...\n"
+
+"${python39}" -m venv "${VENV_DIR_PY39}"
+"${PIP_PATH_PY39}" install -r requirements_3.9.txt
+
+echo -e "\nCreating virtual environment for Python 3.7...\n"
+
+"${python37}" -m venv "${VENV_DIR_PY37}"
+"${PIP_PATH_PY37}" install -r requirements_3.7.txt
+
+echo -e "\nCreating virtual environment for Python 2.7...\n"
+
+virtualenv "${VENV_DIR_PY27}" --python="${python27}"
+"${PIP_PATH_PY27}" install -r requirements_2.7.txt
+
+echo -e "\nDONE\n"

@@ -1,0 +1,83 @@
+#!/bin/bash
+#
+# args:
+# -maya <versiom>
+# -k <run tests by name>
+# -cov (coverage)
+
+set -e
+
+MAYA_LOCATION="C:/Program Files/Autodesk"
+
+export SRC_DIR=$(realpath "src")
+export TEST_DATA_DIR=$(realpath "_test_data")
+
+export MAYA_APP_DIR="${TEST_DATA_DIR}/maya"
+export PYTEST_TEMP_DIR="${TEST_DATA_DIR}/pytest"
+
+BLUE="\033[0;94m"
+NOCOLOR="\033[0m"
+BOLD="\033[1m"
+
+# ------------------------------------------------------------------------------
+
+mayaVersion=""
+pytestArgs=""
+
+while [[ $# -gt 0 ]]
+do
+    argName=$1; shift
+
+    if [[ $1 && $1 != -* ]]
+    then
+        argValue=$1; shift
+    fi
+
+    if [[ "${argName}" == "-maya" ]]
+    then
+        mayaVersion="${argValue}"
+    elif [[ "${argName}" == "-cov" ]]
+    then
+        pytestArgs="${pytestArgs} --cov mayax --cov-branch --cov-report html"
+    else
+        pytestArgs="${pytestArgs} ${argName} ${argValue}"
+    fi
+done
+
+# ------------------------------------------------------------------------------
+
+testMaya()
+{
+    mayaVersion=$1
+    mayapy="${MAYA_LOCATION}/Maya${mayaVersion}/bin/mayapy.exe"
+
+    echo ""
+    echo -e "${BLUE}-------------------------${NOCOLOR}"
+    echo -e "${BLUE}--- Testing Maya ${BOLD}${mayaVersion}${BLUE} ---${NOCOLOR}"
+    echo -e "${BLUE}-------------------------${NOCOLOR}"
+    echo ""
+
+    rm -rf "${TEST_DATA_DIR}"
+
+    mkdir "${TEST_DATA_DIR}"
+    mkdir "${MAYA_APP_DIR}"
+    mkdir "${PYTEST_TEMP_DIR}"
+
+    pyVersion=$("${mayapy}" -c "import sys; print('{}.{}'.format(sys.version_info[0], sys.version_info[1]))")
+
+    export PYTEST_LOCATION=$(realpath ".venv/${pyVersion}/Lib/site-packages")
+
+    "${mayapy}" bin/_test.py ${pytestArgs}
+
+    rm -r "${TEST_DATA_DIR}"
+}
+
+if [[ "${mayaVersion}" == "" ]]
+then
+    testMaya "2019"
+    testMaya "2020"
+    testMaya "2022"
+    testMaya "2023"
+else
+    testMaya "${mayaVersion}"
+fi

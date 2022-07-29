@@ -1,0 +1,8 @@
+-r requirements_3.7.txt
+
+black
+pycodestyle
+pydocstyle
+pylint
+
+beautifulsoup4
