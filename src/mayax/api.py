@@ -1,6 +1,5 @@
 """The API."""
 
-from .attribute import Attribute
 from .decorators import undoable
 from .exceptions import (
     MayaAttributeError,
@@ -14,6 +13,7 @@ from .math import (
     Vector,
 )
 from .node import (
+    Attribute,
     DagNode,
     Node,
 )

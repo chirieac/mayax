@@ -70,8 +70,7 @@ def generateCommandsModule():
         )
 
         cmdFile.write('from maya import cmds\n\n')
-        cmdFile.write('from .node import Node, MayaNodeError\n')
-        cmdFile.write('from .attribute import Attribute, MayaAttributeError\n')
+        cmdFile.write('from .node import Node, Attribute, MayaNodeError, MayaAttributeError\n')
         cmdFile.write('from .strtype import STR_TYPE\n')
 
         cmdFile.write(f'\n\n{getWrapFunction()}\n')

@@ -5,15 +5,16 @@
 
 from maya import cmds
 
-from .node import Node, MayaNodeError
-from .attribute import Attribute, MayaAttributeError
+from .node import Node, Attribute, MayaNodeError, MayaAttributeError
 from .strtype import STR_TYPE
 
 
 def _wrapCommand(cmdFn, args, kwargs):
     args = [
-        value.uniqueName if isinstance(value, Node)
-        else value.fullName if isinstance(value, Attribute)
+        value.uniqueName
+        if isinstance(value, Node)
+        else value.fullName
+        if isinstance(value, Attribute)
         else value
         for value in args
     ]
@@ -23,8 +24,7 @@ def _wrapCommand(cmdFn, args, kwargs):
             kwargs[k] = kwargs[k].uniqueName
         elif isinstance(kwargs[k], list):
             kwargs[k] = [
-                value.uniqueName if isinstance(value, Node) else value
-                for value in kwargs[k]
+                value.uniqueName if isinstance(value, Node) else value for value in kwargs[k]
             ]
 
     result = cmdFn(*args, **kwargs)
