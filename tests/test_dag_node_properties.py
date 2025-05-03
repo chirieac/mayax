@@ -200,6 +200,21 @@ def test_should_getWorldPosition():
     assert worldPosition == mx.Vector(11, 22, 60)
 
 
+def test_should_getWorldPosition_given_frozenObject():
+    cmds.createNode('transform', name='parent')
+    cmds.createNode('transform', name='frozenChild', parent='parent')
+    cmds.move(10, 20, 45, 'parent')
+    cmds.move(1, 2, 15, 'frozenChild', relative=True)
+
+    node = mx.DagNode('frozenChild')
+    node.freezeTransform()
+
+    assert node.translate.isEquivalent(mx.Vector(0, 0, 0), 0.001)
+    assert node.worldPosition.isEquivalent(mx.Vector(11, 22, 60), 0.001)
+
+    assert isinstance(node.worldPosition, mx.Vector)
+
+
 def test_should_getWorldPosition_given_time():
     cmds.createNode('transform', name='parent')
     cmds.createNode('transform', name='child', parent='parent')
@@ -217,6 +232,32 @@ def test_should_getWorldPosition_given_time():
     assert isinstance(futureWorldPosition, mx.Vector)
     assert worldPosition == mx.Vector(11, 22, 60)
     assert futureWorldPosition == mx.Vector(65, 22, 60)
+
+
+def test_should_getWorldPosition_given_time_and_frozenObject():
+    cmds.createNode('transform', name='parent')
+    cmds.createNode('transform', name='frozenChild', parent='parent')
+    cmds.move(10, 20, 45, 'parent')
+    cmds.move(1, 2, 15, 'frozenChild', relative=True)
+
+    node = mx.DagNode('frozenChild')
+    node.freezeTransform()
+
+    cmds.setKeyframe(node.uniqueName)
+    cmds.setKeyframe(node.uniqueName, attribute='translateX', time=5, value=55)
+    cmds.setKeyframe(node.uniqueName, attribute='translateY', time=5, value=-4)
+    cmds.setKeyframe(node.uniqueName, attribute='translateZ', time=5, value=3)
+
+    worldPosition = node.worldPosition
+    futureWorldPosition = node.worldPositionAt(5)
+
+    assert node.translate.isEquivalent(mx.Vector(0, 0, 0), 0.001)
+
+    assert worldPosition.isEquivalent(mx.Vector(11, 22, 60), 0.001)
+    assert futureWorldPosition.isEquivalent(mx.Vector(66, 18, 63), 0.001)
+
+    assert isinstance(worldPosition, mx.Vector)
+    assert isinstance(futureWorldPosition, mx.Vector)
 
 
 def test_should_setWorldPosition():
@@ -243,6 +284,21 @@ def test_should_setWorldPosition_given_locatorTransform():
 
     assert node.translate == mx.Vector(1, 2, 15)
     assert node.worldPosition == mx.Vector(11, 22, 60)
+
+
+def test_should_setWorldPosition_given_frozenObject():
+    cmds.createNode('transform', name='parent')
+    cmds.createNode('transform', name='frozenChild', parent='parent')
+    cmds.move(10, 20, 45, 'parent')
+    cmds.move(1, 2, 15, 'frozenChild', relative=True)
+
+    node = mx.DagNode('frozenChild')
+    node.freezeTransform()
+
+    node.worldPosition = mx.Vector(15, 33, -5)
+
+    assert node.translate == mx.Vector(4, 11, -65)
+    assert node.worldPosition == mx.Vector(15, 33, -5)
 
 
 def test_should_getWorldRotation():

@@ -712,10 +712,11 @@ class DagNode(Node):
     @property
     def worldPosition(self):
         """`Vector`: Return the node's world position."""
-        return Vector(cmds.xform(self.uniqueName, query=True, translation=True, worldSpace=True))
+        return Vector(cmds.xform(self.uniqueName, query=True, rotatePivot=True, worldSpace=True))
 
     @worldPosition.setter
     def worldPosition(self, value):
+        value -= Vector(cmds.xform(self.uniqueName, query=True, rotatePivot=True))
         cmds.xform(self.uniqueName, worldSpace=True, translation=value)
 
     @property
@@ -764,9 +765,10 @@ class DagNode(Node):
 
     def worldPositionAt(self, time):
         """Get the world position at specified time."""
-        transformationMatrix = om.MTransformationMatrix(self['worldMatrix'].valueAt(time))
+        worldMatrix = self['worldMatrix'].valueAt(time)
+        rotatePivot = self['rotatePivot'].valueAt(time)
 
-        return Vector(transformationMatrix.translation(om.MSpace.kWorld))
+        return Vector(om.MPoint(rotatePivot) * worldMatrix)
 
     def worldRotationAt(self, time):
         """Get the world rotation at specified time."""
