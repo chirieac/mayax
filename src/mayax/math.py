@@ -1,5 +1,7 @@
 """Useful math classes and functions."""
 
+import math
+
 import maya.api.OpenMaya as om
 
 
@@ -29,3 +31,7 @@ class EulerRotation(om.MEulerRotation):
 
     See ``maya.api.OpenMaya.MEulerRotation`` for more info.
     """
+
+    def asDegrees(self) -> Vector:
+        """Retrieve the rotation as degrees."""
+        return Vector(math.degrees(self.x), math.degrees(self.y), math.degrees(self.z))
