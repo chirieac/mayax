@@ -467,7 +467,7 @@ class Attribute(object):
             elif isinstance(value, om.MMatrix):
                 kwargs['type'] = 'matrix'
                 args = tuple(value)
-            elif isinstance(value, om.MQuaternion):
+            elif isinstance(value, (om.MQuaternion, om.MEulerRotation)):
                 args = tuple(value)
 
             cmds.setAttr(self.fullName, *args, **kwargs)
