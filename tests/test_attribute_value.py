@@ -262,3 +262,25 @@ def test_should_setColorValue_given_tuple():
     mx.Attribute(node, 'color').value = (0.2, 0.35, 0.9)
 
     assert cmds.getAttr('{}.color'.format(node.uniqueName))[0] == pytest.approx((0.2, 0.35, 0.9))
+
+
+def test_should_setIntArrayValue_given_tuple():
+    node = mx.Node(cmds.createNode('network'))
+    cmds.addAttr(node.uniqueName, longName="intArray", dataType='Int32Array')
+
+    assert cmds.getAttr('{}.intArray'.format(node.uniqueName)) is None
+
+    mx.Attribute(node, 'intArray').value = (3, 2)
+
+    assert cmds.getAttr('{}.intArray'.format(node.uniqueName)) == [3, 2]
+
+
+def test_should_setIntArrayValue_given_list():
+    node = mx.Node(cmds.createNode('network'))
+    cmds.addAttr(node.uniqueName, longName="intArray", dataType='Int32Array')
+
+    assert cmds.getAttr('{}.intArray'.format(node.uniqueName)) is None
+
+    mx.Attribute(node, 'intArray').value = [3, 2]
+
+    assert cmds.getAttr('{}.intArray'.format(node.uniqueName)) == [3, 2]

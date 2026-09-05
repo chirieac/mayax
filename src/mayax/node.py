@@ -469,6 +469,8 @@ class Attribute(object):
                 args = tuple(value)
             elif isinstance(value, (om.MQuaternion, om.MEulerRotation)):
                 args = tuple(value)
+            elif isinstance(value, (tuple, list)) and self.type == 'Int32Array':
+                kwargs['type'] = 'Int32Array'
 
             cmds.setAttr(self.fullName, *args, **kwargs)
 
